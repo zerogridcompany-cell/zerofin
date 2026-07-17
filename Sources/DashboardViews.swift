@@ -104,6 +104,71 @@ struct TrendCard: View {
     }
 }
 
+/// 今日の支出内訳（広告費・PayPal・送金・カード・その他）
+struct ExpenseBreakdown: View {
+    let slices: [ExpenseSlice]
+
+    private var total: Int { max(slices.reduce(0) { $0 + $1.amount }, 1) }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Text("今日の支出")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Text(Yen.short(slices.reduce(0) { $0 + $1.amount }))
+                    .font(.system(size: 11, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.primary)
+            }
+            if slices.isEmpty {
+                Text("支出なし")
+                    .font(.system(size: 11)).foregroundStyle(.tertiary)
+            } else {
+                // 積み上げバー
+                GeometryReader { geo in
+                    HStack(spacing: 2) {
+                        ForEach(slices) { s in
+                            Color(hex: s.colorHex)
+                                .frame(width: max(4, geo.size.width * CGFloat(s.amount) / CGFloat(total)))
+                        }
+                    }
+                    .clipShape(Capsule())
+                }
+                .frame(height: 7)
+                // 凡例
+                VStack(spacing: 6) {
+                    ForEach(slices) { s in
+                        HStack(spacing: 8) {
+                            Circle().fill(Color(hex: s.colorHex)).frame(width: 7, height: 7)
+                            Text(s.label).font(.system(size: 11.5)).foregroundStyle(.secondary)
+                            Spacer()
+                            Text(Yen.short(s.amount))
+                                .font(.system(size: 11.5, weight: .medium, design: .rounded))
+                                .foregroundStyle(.primary)
+                        }
+                    }
+                }
+            }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity)
+        .background(.white.opacity(0.05), in: RoundedRectangle(cornerRadius: 16))
+    }
+}
+
+extension Color {
+    init(hex: String) {
+        let h = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
+        var v: UInt64 = 0
+        Scanner(string: h).scanHexInt64(&v)
+        self.init(.sRGB,
+                  red: Double((v >> 16) & 0xff) / 255,
+                  green: Double((v >> 8) & 0xff) / 255,
+                  blue: Double(v & 0xff) / 255)
+    }
+}
+
 struct Sparkline: View {
     let points: [Int]
 

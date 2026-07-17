@@ -28,6 +28,13 @@ enum SnapshotRenderer {
         s.paypalOut = 0
         s.cardExpenseMtd = 1_121_797
         s.balanceTrend = [43_900_000, 44_100_000, 43_700_000, 44_569_510, 44_200_000, 44_579_538, 44_300_000, 44_579_538]
+        s.expenses = [
+            ExpenseSlice(label: "広告費", amount: 588_462, colorHex: "#0a84ff"),
+            ExpenseSlice(label: "送金・仕入", amount: 312_000, colorHex: "#ff9f0a"),
+            ExpenseSlice(label: "PayPal", amount: 148_000, colorHex: "#c644fc"),
+            ExpenseSlice(label: "カード利用", amount: 92_400, colorHex: "#ff375f"),
+            ExpenseSlice(label: "その他", amount: 21_300, colorHex: "#8a90a0"),
+        ]
         store.snapshot = s
     }
 
@@ -36,6 +43,7 @@ enum SnapshotRenderer {
     }
 
     private static func render(_ store: DataStore) {
+        NotchPanelView.solidPreview = true
         // デスクトップ風の暗い背景の上にパネルを載せてガラス感を再現
         let view = ZStack {
             LinearGradient(colors: [Color(red: 0.10, green: 0.11, blue: 0.16),
@@ -44,11 +52,11 @@ enum SnapshotRenderer {
             NotchPanelView()
                 .environment(store)
                 .environment(revealedState())
-                .frame(width: 460, height: 560)
+                .frame(width: 460, height: 720)
                 .padding(.horizontal, 30)
                 .padding(.vertical, 24)
         }
-        .frame(width: 520, height: 608)
+        .frame(width: 520, height: 768)
         .preferredColorScheme(.dark)
         let renderer = ImageRenderer(content: view)
         renderer.scale = 2

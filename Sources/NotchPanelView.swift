@@ -2,6 +2,8 @@ import SwiftUI
 
 /// ノッチパネルの中身。ノッチから生えるように上端中央を起点に展開する。
 struct NotchPanelView: View {
+    /// スナップショット描画時のみ true（ImageRenderer はガラスを描けないためソリッド背景に）
+    static var solidPreview = false
     @Environment(DataStore.self) private var store
     @Environment(PanelState.self) private var panel
 
@@ -31,7 +33,7 @@ struct NotchPanelView: View {
                 .padding(.bottom, 20)
         }
         .frame(maxWidth: .infinity, alignment: .top)
-        .glassEffect(.regular, in: BottomRoundedShape(radius: 26))
+        .modifier(PanelBackgroundModifier())
         .overlay(
             BottomRoundedShape(radius: 26)
                 .stroke(.white.opacity(0.12), lineWidth: 0.5)
@@ -44,6 +46,7 @@ struct NotchPanelView: View {
             HeroBalance(value: store.snapshot.effectiveBalance,
                         bank: store.snapshot.bankTotal)
             MetricRow(snapshot: store.snapshot)
+            ExpenseBreakdown(slices: store.snapshot.expenses)
             TrendCard(points: store.snapshot.balanceTrend)
             Spacer(minLength: 0)
         }
@@ -74,6 +77,19 @@ struct NotchPanelView: View {
                     .font(.system(size: 11, design: .monospaced))
                     .foregroundStyle(.tertiary)
             }
+        }
+    }
+}
+
+/// パネル背景: 実機はリキッドガラス、スナップショット時はソリッド
+private struct PanelBackgroundModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if NotchPanelView.solidPreview {
+            content.background(
+                BottomRoundedShape(radius: 26).fill(Color(.sRGB, red: 0.09, green: 0.10, blue: 0.14))
+            )
+        } else {
+            content.glassEffect(.regular, in: BottomRoundedShape(radius: 26))
         }
     }
 }

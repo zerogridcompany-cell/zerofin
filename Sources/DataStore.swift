@@ -16,7 +16,15 @@ struct FinanceSnapshot {
     var nextPayoutAmount: Int = 0
     var nextPayoutDate: String? = nil
     var balanceTrend: [Int] = []   // 直近の総残高推移（スパークライン用）
+    var expenses: [ExpenseSlice] = []   // 今日の支出内訳
     var updatedAt: Date? = nil
+}
+
+struct ExpenseSlice: Identifiable {
+    let id = UUID()
+    let label: String
+    let amount: Int
+    let colorHex: String
 }
 
 @MainActor
@@ -78,6 +86,8 @@ final class DataStore {
                     case "next_payout_amount":
                         snap.nextPayoutAmount = value
                         snap.nextPayoutDate = meta?["payout_date"] as? String
+                    case "expense_breakdown":
+                        snap.expenses = parseExpenses(meta)
                     default: break
                     }
                 }
@@ -103,6 +113,21 @@ final class DataStore {
         // 古い順に最大30点
         let totals = order.reversed().map { byTs[$0] ?? 0 }
         return Array(totals.suffix(30))
+    }
+
+    private func parseExpenses(_ meta: [String: Any]?) -> [ExpenseSlice] {
+        guard let meta else { return [] }
+        let defs: [(String, String, String)] = [
+            ("ad", "広告費", "#0a84ff"),
+            ("paypal", "PayPal", "#c644fc"),
+            ("transfer", "送金・仕入", "#ff9f0a"),
+            ("card", "カード利用", "#ff375f"),
+            ("other", "その他", "#8a90a0"),
+        ]
+        return defs
+            .map { ExpenseSlice(label: $0.1, amount: intValue(meta[$0.0]), colorHex: $0.2) }
+            .filter { $0.amount > 0 }
+            .sorted { $0.amount > $1.amount }
     }
 
     private func intValue(_ any: Any?) -> Int {

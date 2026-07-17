@@ -23,7 +23,7 @@ final class NotchController: NSObject {
     // 上部にノッチ用の余白を確保（この分だけカードが下に降りる）
     let topInset: CGFloat = 8
     private let panelWidth: CGFloat = 460
-    private let panelHeight: CGFloat = 580
+    private let panelHeight: CGFloat = 720
 
     func toggle() { isOpen ? close() : open() }
 
