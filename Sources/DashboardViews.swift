@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// 一番上のデカい「実質残高」
+/// 一番上のデカい「残高」（銀行口座の実残高）
 struct HeroBalance: View {
-    let value: Int
-    let bank: Int
+    let value: Int          // 今の銀行残高
+    let todayNet: Int       // 今日の純増減（入金 − 支出）
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("実質残高")
+            Text("残高")
                 .font(.system(size: 12, weight: .medium))
                 .foregroundStyle(.secondary)
             Text(Yen.full(value))
@@ -16,9 +16,11 @@ struct HeroBalance: View {
                 .contentTransition(.numericText())
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
-            Text("銀行残高 \(Yen.short(bank))")
-                .font(.system(size: 11))
-                .foregroundStyle(.tertiary)
+            if todayNet != 0 {
+                Text("今日 \(todayNet > 0 ? "+" : "")\(Yen.short(todayNet))")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(todayNet >= 0 ? .green : .red)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

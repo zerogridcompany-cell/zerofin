@@ -43,8 +43,9 @@ struct NotchPanelView: View {
     @ViewBuilder private var content: some View {
         VStack(alignment: .leading, spacing: 18) {
             header
-            HeroBalance(value: store.snapshot.effectiveBalance,
-                        bank: store.snapshot.bankTotal)
+            HeroBalance(value: store.snapshot.bankTotal,
+                        todayNet: store.snapshot.mfIncome
+                            - store.snapshot.expenses.reduce(0) { $0 + $1.amount })
             MetricRow(snapshot: store.snapshot)
             ExpenseBreakdown(slices: store.snapshot.expenses)
             TrendCard(points: store.snapshot.balanceTrend)

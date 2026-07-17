@@ -27,8 +27,13 @@ rm -rf "$TMP"
 # 2. Supabase 読取設定
 mkdir -p "$ENV_DIR"; chmod 700 "$ENV_DIR"
 if [ ! -f "$ENV_FILE" ] || ! grep -q SUPABASE_URL "$ENV_FILE" 2>/dev/null; then
-  printf "  Supabase URL (https://xxxx.supabase.co): "; read -r SB_URL </dev/tty
-  printf "  Supabase 読取キー: "; read -r SB_KEY </dev/tty
+  # 事前に環境変数で渡されていれば聞かずに使う（管理者が配る1コマンド用）
+  SB_URL="${ZEROFIN_SB_URL:-}"
+  SB_KEY="${ZEROFIN_SB_KEY:-}"
+  if [ -z "$SB_URL" ] || [ -z "$SB_KEY" ]; then
+    printf "  Supabase URL (https://xxxx.supabase.co): "; read -r SB_URL </dev/tty
+    printf "  Supabase 読取キー: "; read -r SB_KEY </dev/tty
+  fi
   {
     echo "SUPABASE_URL=$SB_URL"
     echo "SUPABASE_SERVICE_KEY=$SB_KEY"

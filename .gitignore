@@ -4,3 +4,5 @@ ZeroFin.xcodeproj/
 .DS_Store
 dist/ZeroFin.app.zip
 dist/onboarding.built.html
+dist/zerofin-widget-team.js
+dist/*-team.js
