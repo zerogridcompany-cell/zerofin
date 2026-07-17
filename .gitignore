@@ -1,0 +1,6 @@
+build/
+ZeroFin.xcodeproj/
+*.xcuserstate
+.DS_Store
+dist/ZeroFin.app.zip
+dist/onboarding.built.html

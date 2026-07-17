@@ -1,0 +1,33 @@
+name: ZeroFin
+options:
+  bundleIdPrefix: ai.zerogrid
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+
+targets:
+  ZeroFin:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+    info:
+      path: Sources/Info.plist
+      properties:
+        CFBundleDisplayName: ZeroFin
+        CFBundleName: ZeroFin
+        LSUIElement: true            # メニューバー/エージェント型（Dockに出さない）
+        NSMicrophoneUsageDescription: "音声で財務データを呼び出すために使います"
+        NSSpeechRecognitionUsageDescription: "音声コマンドを認識するために使います"
+        NSHumanReadableCopyright: "© 2026 Zerogrid Inc."
+        LSMinimumSystemVersion: "26.0"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: ai.zerogrid.zerofin
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "6.0"
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: true
+        ENABLE_APP_SANDBOX: false      # ~/.zerofin/env 読取・claude CLI 実行のため無効
