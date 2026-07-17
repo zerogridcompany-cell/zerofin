@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ZeroFin — セットアップ</title>
+<title>ZeroFin — チームセットアップ（社内限定）</title>
 <style>
   :root { --bg:#0b0d14; --card:#12151f; --line:rgba(255,255,255,.08);
           --txt:#e8eaf0; --dim:#8a90a0; --faint:#5a6070;
@@ -45,8 +45,8 @@
 <div class="wrap">
   <header>
     <div class="badge">ZEROGRID · FINANCE</div>
-    <h1>ZeroFin をデバイスに入れる</h1>
-    <p class="sub">会社の金を、どこにもログインせず一目で。Mac はターミナル一発、iPhone はホーム画面ウィジェット。</p>
+    <h1>ZeroFin をデバイスに入れる（社内版）</h1>
+    <p class="sub">キー埋め込み済み。Mac はコマンド貼るだけ、iPhone はコード貼るだけ。※社内限定・公開の場に貼らない</p>
   </header>
 
   <div class="grid">
@@ -56,10 +56,10 @@
       <div class="tag">メニューバー常駐 ＋ ⌘F でノッチから展開</div>
       <div class="step"><div class="num">1</div><div class="body">ターミナルに貼って実行:</div></div>
       <div class="codewrap">
-        <pre id="mac-cmd">curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/install.sh | sh</pre>
+        <pre id="mac-cmd">ZEROFIN_SB_URL=&#x27;https://kcxydwcdpmqgtqdqnqum.supabase.co&#x27; ZEROFIN_SB_KEY=&#x27;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjeHlkd2NkcG1xZ3RxZHFucXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MTY3ODEsImV4cCI6MjA5OTQ5Mjc4MX0.c2D9zTFLottlXybiIsoe8q4cnud3flcKMfIQQGEObA0&#x27; bash -c &#x27;curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/install.sh | sh&#x27;</pre>
         <button class="copy" data-target="mac-cmd">コピー</button>
       </div>
-      <div class="step"><div class="num">2</div><div class="body">初回だけ <b>Supabase の URL と読取キー</b>を聞かれるので入力</div></div>
+      <div class="step"><div class="num">2</div><div class="body"><b>キー埋め込み済み</b>。プロンプトなしでインストール完了</div></div>
       <div class="step"><div class="num">3</div><div class="body"><b>⌘F</b> でダッシュボードが降りてくる。メニューバーの <b>¥</b> からも開ける</div></div>
       <details><summary>手動で入れる場合</summary>
         <div class="body" style="margin-top:8px">アプリ単体をダウンロード → <code>/Applications</code> に置いて起動:
@@ -78,31 +78,16 @@ open /Applications/ZeroFin.app</pre>
       <div class="step"><div class="num">1</div><div class="body">App Store で無料の <b>Scriptable</b> を入れる</div></div>
       <div class="step"><div class="num">2</div><div class="body">Scriptable で<b>新規スクリプト</b>を作り、下のコードを全部貼る</div></div>
       <div class="step"><div class="num">3</div><div class="body">ホーム画面を長押し → <b>ウィジェット追加 → Scriptable</b> → このスクリプトを選択</div></div>
-      <div class="step"><div class="num">4</div><div class="body">初回に <b>Supabase の URL / 読取キー</b>を入力（端末の Keychain に保存）</div></div>
+      <div class="step"><div class="num">4</div><div class="body"><b>キー埋め込み済み</b>。入力不要で動く</div></div>
       <div class="codewrap">
         <pre id="ios-code" style="max-height:200px">// ZeroFin — iPhone ホーム画面ウィジェット (Scriptable)
 // 初回だけ Supabase の URL と読み取りキーを聞いて Keychain に保存する。
 // 使い方: Scriptable に新規スクリプトとして貼付 → ホーム画面に Scriptable ウィジェット追加 → このスクリプトを選択。
 
-const K_URL = &quot;zerofin_supabase_url&quot;;
-const K_KEY = &quot;zerofin_supabase_key&quot;;
-
-async function ensureCreds() {
-  if (!Keychain.contains(K_URL) || !Keychain.contains(K_KEY)) {
-    const a = new Alert();
-    a.title = &quot;ZeroFin 初期設定&quot;;
-    a.message = &quot;Supabase の URL と読み取りキーを入力&quot;;
-    a.addTextField(&quot;https://xxxx.supabase.co&quot;, &quot;&quot;);
-    a.addSecureTextField(&quot;service_role または anon key&quot;, &quot;&quot;);
-    a.addAction(&quot;保存&quot;);
-    a.addCancelAction(&quot;キャンセル&quot;);
-    const idx = await a.present();
-    if (idx === -1) throw new Error(&quot;設定がキャンセルされました&quot;);
-    Keychain.set(K_URL, a.textFieldValue(0).trim());
-    Keychain.set(K_KEY, a.textFieldValue(1).trim());
-  }
-  return { url: Keychain.get(K_URL).replace(/\/$/, &quot;&quot;), key: Keychain.get(K_KEY) };
-}
+// ★ ZeroGrid チーム配布版（Supabase 読取キー埋め込み済み・そのまま貼るだけ）
+const SB_URL = &quot;https://kcxydwcdpmqgtqdqnqum.supabase.co&quot;;
+const SB_KEY = &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjeHlkd2NkcG1xZ3RxZHFucXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MTY3ODEsImV4cCI6MjA5OTQ5Mjc4MX0.c2D9zTFLottlXybiIsoe8q4cnud3flcKMfIQQGEObA0&quot;;
+async function ensureCreds() { return { url: SB_URL, key: SB_KEY }; }
 
 async function fetchMetrics({ url, key }) {
   const req = new Request(`${url}/rest/v1/zf_daily_metrics?select=date,key,value&amp;order=date.desc&amp;limit=40`);
@@ -203,8 +188,7 @@ Script.complete();
   </div>
 
   <div class="note">
-    <b>Supabase の読取キー</b>は Seiyo に聞く（<code>~/.zerofin/env</code> の <code>SUPABASE_URL</code> / <code>SUPABASE_SERVICE_KEY</code>）。
-    このページと配布物は社内限定。キーを外部に貼らないこと。収集は Mac mini 専任なので、他デバイスは「見るだけ」。
+    このページは<b>読み取り専用キー</b>（書き換え不可）を含む社内限定版。Slack/Telegram等で直接共有し、公開の場には貼らないこと。収集は Mac mini 専任、他デバイスは見るだけ。
   </div>
 
   <footer>ZeroFin · Zerogrid Inc. · 収集は3時間おき自動</footer>

@@ -86,6 +86,17 @@ open /Applications/ZeroFin.app</pre>
     </div>
   </div>
 
+  <div class="card" style="margin-top:18px">
+    <h2><span class="icon" style="background:rgba(255,55,95,.16);color:var(--card-red,#ff375f)">✕</span> アンインストール</h2>
+    <div class="tag">アプリ・自動起動・設定をまとめて削除</div>
+    <div class="step"><div class="num">M</div><div class="body"><b>Mac</b>: ターミナルに貼って実行</div></div>
+    <div class="codewrap">
+      <pre id="mac-uninstall">curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/uninstall.sh | sh</pre>
+      <button class="copy" data-target="mac-uninstall">コピー</button>
+    </div>
+    <div class="step" style="margin-top:14px"><div class="num">i</div><div class="body"><b>iPhone</b>: ホーム画面のウィジェットを長押し → 削除。Scriptable のスクリプトも消せば完全削除</div></div>
+  </div>
+
   <div class="note">
     <b>Supabase の読取キー</b>は Seiyo に聞く（<code>~/.zerofin/env</code> の <code>SUPABASE_URL</code> / <code>SUPABASE_SERVICE_KEY</code>）。
     このページと配布物は社内限定。キーを外部に貼らないこと。収集は Mac mini 専任なので、他デバイスは「見るだけ」。

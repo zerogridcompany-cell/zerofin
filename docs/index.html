@@ -84,24 +84,24 @@ open /Applications/ZeroFin.app</pre>
 // 初回だけ Supabase の URL と読み取りキーを聞いて Keychain に保存する。
 // 使い方: Scriptable に新規スクリプトとして貼付 → ホーム画面に Scriptable ウィジェット追加 → このスクリプトを選択。
 
-const K_URL = "zerofin_supabase_url";
-const K_KEY = "zerofin_supabase_key";
+const K_URL = &quot;zerofin_supabase_url&quot;;
+const K_KEY = &quot;zerofin_supabase_key&quot;;
 
 async function ensureCreds() {
   if (!Keychain.contains(K_URL) || !Keychain.contains(K_KEY)) {
     const a = new Alert();
-    a.title = "ZeroFin 初期設定";
-    a.message = "Supabase の URL と読み取りキーを入力";
-    a.addTextField("https://xxxx.supabase.co", "");
-    a.addSecureTextField("service_role または anon key", "");
-    a.addAction("保存");
-    a.addCancelAction("キャンセル");
+    a.title = &quot;ZeroFin 初期設定&quot;;
+    a.message = &quot;Supabase の URL と読み取りキーを入力&quot;;
+    a.addTextField(&quot;https://xxxx.supabase.co&quot;, &quot;&quot;);
+    a.addSecureTextField(&quot;service_role または anon key&quot;, &quot;&quot;);
+    a.addAction(&quot;保存&quot;);
+    a.addCancelAction(&quot;キャンセル&quot;);
     const idx = await a.present();
-    if (idx === -1) throw new Error("設定がキャンセルされました");
+    if (idx === -1) throw new Error(&quot;設定がキャンセルされました&quot;);
     Keychain.set(K_URL, a.textFieldValue(0).trim());
     Keychain.set(K_KEY, a.textFieldValue(1).trim());
   }
-  return { url: Keychain.get(K_URL).replace(/\/$/, ""), key: Keychain.get(K_KEY) };
+  return { url: Keychain.get(K_URL).replace(/\/$/, &quot;&quot;), key: Keychain.get(K_KEY) };
 }
 
 async function fetchMetrics({ url, key }) {
@@ -116,8 +116,8 @@ async function fetchMetrics({ url, key }) {
 }
 
 function yen(v) {
-  if (v == null) return "—";
-  const a = Math.abs(v), s = v &lt; 0 ? "-" : "";
+  if (v == null) return &quot;—&quot;;
+  const a = Math.abs(v), s = v &lt; 0 ? &quot;-&quot; : &quot;&quot;;
   if (a &gt;= 1e8) return `${s}¥${(a / 1e8).toFixed(1)}億`;
   if (a &gt;= 1e4) return `${s}¥${Math.round(a / 1e4).toLocaleString()}万`;
   return `${s}¥${a.toLocaleString()}`;
@@ -126,24 +126,24 @@ function yen(v) {
 function buildWidget(m) {
   const w = new ListWidget();
   const bg = new LinearGradient();
-  bg.colors = [new Color("#0b0d14"), new Color("#12151f")];
+  bg.colors = [new Color(&quot;#0b0d14&quot;), new Color(&quot;#12151f&quot;)];
   bg.locations = [0, 1];
   w.backgroundGradient = bg;
   w.setPadding(16, 18, 16, 18);
 
   const head = w.addStack();
-  const label = head.addText("FINANCE");
+  const label = head.addText(&quot;FINANCE&quot;);
   label.font = Font.mediumSystemFont(9);
-  label.textColor = new Color("#8a90a0");
+  label.textColor = new Color(&quot;#8a90a0&quot;);
   head.addSpacer();
-  const date = head.addText(m._date || "");
+  const date = head.addText(m._date || &quot;&quot;);
   date.font = Font.systemFont(9);
-  date.textColor = new Color("#5a6070");
+  date.textColor = new Color(&quot;#5a6070&quot;);
 
   w.addSpacer(8);
-  const t = w.addText("実質残高");
+  const t = w.addText(&quot;実質残高&quot;);
   t.font = Font.systemFont(11);
-  t.textColor = new Color("#9aa0b0");
+  t.textColor = new Color(&quot;#9aa0b0&quot;);
   const bal = w.addText(yen(m.effective_balance));
   bal.font = Font.boldSystemFont(28);
   bal.textColor = Color.white();
@@ -152,9 +152,9 @@ function buildWidget(m) {
   w.addSpacer(10);
   const row = w.addStack();
   row.spacing = 10;
-  metricCell(row, "売上", yen(m.shopify_sales), "#34c759");
-  metricCell(row, "広告", yen(m.ad_spend), "#0a84ff");
-  metricCell(row, "入金", yen(m.mf_income), "#30d0c0");
+  metricCell(row, &quot;売上&quot;, yen(m.shopify_sales), &quot;#34c759&quot;);
+  metricCell(row, &quot;広告&quot;, yen(m.ad_spend), &quot;#0a84ff&quot;);
+  metricCell(row, &quot;入金&quot;, yen(m.mf_income), &quot;#30d0c0&quot;);
   w.addSpacer();
   return w;
 }
@@ -169,7 +169,7 @@ function metricCell(row, label, value, color) {
   v.minimumScaleFactor = 0.6;
   const l = s.addText(label);
   l.font = Font.systemFont(9);
-  l.textColor = new Color("#7a8090");
+  l.textColor = new Color(&quot;#7a8090&quot;);
 }
 
 try {
@@ -180,7 +180,7 @@ try {
   else await widget.presentMedium();
 } catch (e) {
   const w = new ListWidget();
-  w.addText("ZeroFin エラー\n" + e.message).textColor = Color.white();
+  w.addText(&quot;ZeroFin エラー\n&quot; + e.message).textColor = Color.white();
   if (config.runsInWidget) Script.setWidget(w);
   else await w.presentMedium();
 }
@@ -189,6 +189,17 @@ Script.complete();
         <button class="copy" data-target="ios-code">全部コピー</button>
       </div>
     </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h2><span class="icon" style="background:rgba(255,55,95,.16);color:var(--card-red,#ff375f)">✕</span> アンインストール</h2>
+    <div class="tag">アプリ・自動起動・設定をまとめて削除</div>
+    <div class="step"><div class="num">M</div><div class="body"><b>Mac</b>: ターミナルに貼って実行</div></div>
+    <div class="codewrap">
+      <pre id="mac-uninstall">curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/uninstall.sh | sh</pre>
+      <button class="copy" data-target="mac-uninstall">コピー</button>
+    </div>
+    <div class="step" style="margin-top:14px"><div class="num">i</div><div class="body"><b>iPhone</b>: ホーム画面のウィジェットを長押し → 削除。Scriptable のスクリプトも消せば完全削除</div></div>
   </div>
 
   <div class="note">
