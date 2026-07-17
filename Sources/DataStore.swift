@@ -58,6 +58,10 @@ final class DataStore {
         loading = true
         lastError = nil
         defer { loading = false }
+        guard Config.isConfigured else {
+            lastError = "未設定: ~/.zerofin/env に Supabase の URL と読取キーがありません"
+            return
+        }
         do {
             // 最新日付のメトリクス群
             let rows = try await fetchJSON("zf_daily_metrics?select=date,key,value,meta&order=date.desc&limit=40")

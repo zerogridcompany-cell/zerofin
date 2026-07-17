@@ -106,6 +106,24 @@ struct TrendCard: View {
     }
 }
 
+/// 未設定時の案内
+struct SetupNeeded: View {
+    let message: String
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Image(systemName: "gearshape.fill").font(.system(size: 22)).foregroundStyle(.orange)
+            Text("セットアップが必要").font(.system(size: 16, weight: .semibold))
+            Text(message).font(.system(size: 11.5)).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Text("Seiyo から配布コマンドを受け取って実行してください。")
+                .font(.system(size: 11)).foregroundStyle(.tertiary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(.white.opacity(0.05), in: RoundedRectangle(cornerRadius: 14))
+    }
+}
+
 /// 今日の支出内訳（広告費・PayPal・送金・カード・その他）
 struct ExpenseBreakdown: View {
     let slices: [ExpenseSlice]
