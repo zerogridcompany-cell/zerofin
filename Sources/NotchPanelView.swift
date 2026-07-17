@@ -3,7 +3,6 @@ import SwiftUI
 /// ノッチパネルの中身。ノッチから生えるように上端中央を起点に展開する。
 struct NotchPanelView: View {
     @Environment(DataStore.self) private var store
-    @Environment(VoiceInput.self) private var voice
     @Environment(PanelState.self) private var panel
 
     private let notchWidth: CGFloat = 200
@@ -47,7 +46,6 @@ struct NotchPanelView: View {
             MetricRow(snapshot: store.snapshot)
             TrendCard(points: store.snapshot.balanceTrend)
             Spacer(minLength: 0)
-            CommandBar()
         }
     }
 

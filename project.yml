@@ -17,8 +17,6 @@ targets:
         CFBundleDisplayName: ZeroFin
         CFBundleName: ZeroFin
         LSUIElement: true            # メニューバー/エージェント型（Dockに出さない）
-        NSMicrophoneUsageDescription: "音声で財務データを呼び出すために使います"
-        NSSpeechRecognitionUsageDescription: "音声コマンドを認識するために使います"
         NSHumanReadableCopyright: "© 2026 Zerogrid Inc."
         LSMinimumSystemVersion: "26.0"
     settings:

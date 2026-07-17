@@ -31,6 +31,10 @@ enum SnapshotRenderer {
         store.snapshot = s
     }
 
+    private static func revealedState() -> PanelState {
+        let s = PanelState(); s.revealed = true; return s
+    }
+
     private static func render(_ store: DataStore) {
         // デスクトップ風の暗い背景の上にパネルを載せてガラス感を再現
         let view = ZStack {
@@ -39,7 +43,7 @@ enum SnapshotRenderer {
                            startPoint: .topLeading, endPoint: .bottomTrailing)
             NotchPanelView()
                 .environment(store)
-                .environment(VoiceInput())
+                .environment(revealedState())
                 .frame(width: 460, height: 560)
                 .padding(.horizontal, 30)
                 .padding(.vertical, 24)

@@ -26,9 +26,5 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2026 Zerogrid Inc.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>音声で財務データを呼び出すために使います</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>音声コマンドを認識するために使います</string>
 </dict>
 </plist>

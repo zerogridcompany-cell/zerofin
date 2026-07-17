@@ -16,7 +16,6 @@ final class NotchController: NSObject {
     static let shared = NotchController()
 
     let store = DataStore()
-    let voice = VoiceInput()
     let panelState = PanelState()
     private var window: NSPanel?
     private(set) var isOpen = false
@@ -59,7 +58,6 @@ final class NotchController: NSObject {
     func close() {
         guard isOpen, let win = window else { return }
         isOpen = false
-        voice.stop()
         withAnimation(.spring(response: 0.32, dampingFraction: 0.9)) {
             panelState.revealed = false
         }
@@ -87,7 +85,6 @@ final class NotchController: NSObject {
 
         let root = NotchPanelView()
             .environment(store)
-            .environment(voice)
             .environment(panelState)
         let hosting = NSHostingView(rootView: root)
         hosting.frame = panel.contentView!.bounds
