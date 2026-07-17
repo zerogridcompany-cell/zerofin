@@ -61,11 +61,16 @@
       </div>
       <div class="step"><div class="num">2</div><div class="body">初回だけ <b>Supabase の URL と読取キー</b>を聞かれるので入力</div></div>
       <div class="step"><div class="num">3</div><div class="body"><b>⌘F</b> でダッシュボードが降りてくる。メニューバーの <b>¥</b> からも開ける</div></div>
-      <details><summary>手動で入れる場合</summary>
-        <div class="body" style="margin-top:8px">アプリ単体をダウンロード → <code>/Applications</code> に置いて起動:
-          <div class="codewrap"><pre id="mac-zip">curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/ZeroFin.app.zip -o ~/Downloads/ZeroFin.zip
+      <details><summary>うまくいかない時（0円になる等）</summary>
+        <div class="body" style="margin-top:8px">設定ファイルを直接書いて入れ直す:
+          <div class="codewrap"><pre id="mac-zip">mkdir -p ~/.zerofin && cat > ~/.zerofin/env &lt;&lt;'EOF'
+SUPABASE_URL=__SB_URL__
+SUPABASE_SERVICE_KEY=__SB_KEY__
+EOF
+chmod 600 ~/.zerofin/env
+curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/ZeroFin.app.zip -o ~/Downloads/ZeroFin.zip
 ditto -x -k ~/Downloads/ZeroFin.zip /Applications
-open /Applications/ZeroFin.app</pre>
+osascript -e 'quit app "ZeroFin"' 2&gt;/dev/null; open /Applications/ZeroFin.app</pre>
           <button class="copy" data-target="mac-zip">コピー</button></div>
         </div>
       </details>

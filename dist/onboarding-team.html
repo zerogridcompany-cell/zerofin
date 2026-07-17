@@ -46,7 +46,7 @@
   <header>
     <div class="badge">ZEROGRID · FINANCE</div>
     <h1>ZeroFin をデバイスに入れる（社内版）</h1>
-    <p class="sub">キー埋め込み済み。Mac はコマンド貼るだけ、iPhone はコード貼るだけ。※社内限定・公開の場に貼らない</p>
+    <p class="sub">キー埋め込み済み。Mac はコマンド貼るだけ、iPhone はコード貼るだけ。※社内限定</p>
   </header>
 
   <div class="grid">
@@ -59,13 +59,18 @@
         <pre id="mac-cmd">ZEROFIN_SB_URL=&#x27;https://kcxydwcdpmqgtqdqnqum.supabase.co&#x27; ZEROFIN_SB_KEY=&#x27;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjeHlkd2NkcG1xZ3RxZHFucXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MTY3ODEsImV4cCI6MjA5OTQ5Mjc4MX0.c2D9zTFLottlXybiIsoe8q4cnud3flcKMfIQQGEObA0&#x27; bash -c &#x27;curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/install.sh | sh&#x27;</pre>
         <button class="copy" data-target="mac-cmd">コピー</button>
       </div>
-      <div class="step"><div class="num">2</div><div class="body"><b>キー埋め込み済み</b>。プロンプトなしでインストール完了</div></div>
+      <div class="step"><div class="num">2</div><div class="body"><b>キー埋め込み済み</b>。プロンプトなしで完了</div></div>
       <div class="step"><div class="num">3</div><div class="body"><b>⌘F</b> でダッシュボードが降りてくる。メニューバーの <b>¥</b> からも開ける</div></div>
-      <details><summary>手動で入れる場合</summary>
-        <div class="body" style="margin-top:8px">アプリ単体をダウンロード → <code>/Applications</code> に置いて起動:
-          <div class="codewrap"><pre id="mac-zip">curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/ZeroFin.app.zip -o ~/Downloads/ZeroFin.zip
+      <details><summary>うまくいかない時（0円になる等）</summary>
+        <div class="body" style="margin-top:8px">設定ファイルを直接書いて入れ直す:
+          <div class="codewrap"><pre id="mac-zip">mkdir -p ~/.zerofin && cat > ~/.zerofin/env &lt;&lt;'EOF'
+SUPABASE_URL=https://kcxydwcdpmqgtqdqnqum.supabase.co
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjeHlkd2NkcG1xZ3RxZHFucXVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM5MTY3ODEsImV4cCI6MjA5OTQ5Mjc4MX0.c2D9zTFLottlXybiIsoe8q4cnud3flcKMfIQQGEObA0
+EOF
+chmod 600 ~/.zerofin/env
+curl -fsSL https://github.com/zerogridcompany-cell/zerofin/releases/latest/download/ZeroFin.app.zip -o ~/Downloads/ZeroFin.zip
 ditto -x -k ~/Downloads/ZeroFin.zip /Applications
-open /Applications/ZeroFin.app</pre>
+osascript -e 'quit app "ZeroFin"' 2&gt;/dev/null; open /Applications/ZeroFin.app</pre>
           <button class="copy" data-target="mac-zip">コピー</button></div>
         </div>
       </details>
@@ -78,7 +83,7 @@ open /Applications/ZeroFin.app</pre>
       <div class="step"><div class="num">1</div><div class="body">App Store で無料の <b>Scriptable</b> を入れる</div></div>
       <div class="step"><div class="num">2</div><div class="body">Scriptable で<b>新規スクリプト</b>を作り、下のコードを全部貼る</div></div>
       <div class="step"><div class="num">3</div><div class="body">ホーム画面を長押し → <b>ウィジェット追加 → Scriptable</b> → このスクリプトを選択</div></div>
-      <div class="step"><div class="num">4</div><div class="body"><b>キー埋め込み済み</b>。入力不要で動く</div></div>
+      <div class="step"><div class="num">4</div><div class="body"><b>キー埋め込み済み</b>。入力不要</div></div>
       <div class="codewrap">
         <pre id="ios-code" style="max-height:200px">// ZeroFin — iPhone ホーム画面ウィジェット (Scriptable)
 // 初回だけ Supabase の URL と読み取りキーを聞いて Keychain に保存する。
@@ -188,7 +193,7 @@ Script.complete();
   </div>
 
   <div class="note">
-    このページは<b>読み取り専用キー</b>（書き換え不可）を含む社内限定版。Slack/Telegram等で直接共有し、公開の場には貼らないこと。収集は Mac mini 専任、他デバイスは見るだけ。
+    <b>読み取り専用キー</b>（書き換え不可）を含む社内限定版。Slack/Telegram等で直接共有し公開の場に貼らない。収集は Mac mini 専任、他デバイスは見るだけ。
   </div>
 
   <footer>ZeroFin · Zerogrid Inc. · 収集は3時間おき自動</footer>
